@@ -1,0 +1,42 @@
+app:
+  jwtSecret: JWT_SUPER_SECRET
+  debug: true
+  jwtExpiration: 30
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/sboot_shop_api
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: MYSQL
+    show-sql: true
+    use_sql_comments: true
+    format_sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+
+  thymeleaf:
+    cache: false # turn off thymeleaf caching
+  resources:
+    static-locations: file:./uploads/
+
+logging:
+  level:
+    root: WARN
+    com.melardev: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.security: DEBUG
+
+server:
+  error:
+    include-stacktrace: always
+
+  servlet:
+    context-path: /api
+  port: 8080
+
+# debug: true
