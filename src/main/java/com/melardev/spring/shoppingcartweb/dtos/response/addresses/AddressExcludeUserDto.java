@@ -8,17 +8,21 @@ public class AddressExcludeUserDto {
     private final String country;
     private final String zipCode;
     private final String address;
+    private final String firstName;
+    private final String lastName;
 
-    public AddressExcludeUserDto(Long id, String country, String city, String address, String zipCode) {
+    public AddressExcludeUserDto(Long id, String firstName, String lastName, String country, String city, String address, String zipCode) {
         this.id = id;
         this.city = city;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.country = country;
         this.zipCode = zipCode;
         this.address = address;
     }
 
     public static AddressExcludeUserDto build(Address address) {
-        return new AddressExcludeUserDto(address.getId(), address.getCity(), address.getCountry(), address.getAddress(), address.getZipCode());
+        return new AddressExcludeUserDto(address.getId(), address.getFirstName(), address.getLastName(), address.getCity(), address.getCountry(), address.getAddress(), address.getZipCode());
     }
 
     public String getAddress() {
@@ -39,5 +43,13 @@ public class AddressExcludeUserDto {
 
     public Long getId() {
         return id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 }

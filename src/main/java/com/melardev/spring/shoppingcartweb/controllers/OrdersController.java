@@ -14,6 +14,8 @@ import com.melardev.spring.shoppingcartweb.services.auth.AuthorizationService;
 import com.melardev.spring.shoppingcartweb.services.auth.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,15 +42,15 @@ public class OrdersController {
     }
 
     @GetMapping
-    public AppResponse index(HttpServletRequest request,
-                             @RequestParam(value = "page", defaultValue = "1") int page,
-                             @RequestParam(value = "page_size", defaultValue = "30") int pageSize) {
+    public ResponseEntity<AppResponse> index(HttpServletRequest request,
+                                             @RequestParam(value = "page", defaultValue = "1") int page,
+                                             @RequestParam(value = "page_size", defaultValue = "30") int pageSize) {
 
         if (this.userService.isAnonymous())
-            return new ErrorResponse("We can not retrieve orders for anonymous users");
+            return new ResponseEntity<>(new ErrorResponse("We can not retrieve orders for anonymous users"), HttpStatus.FORBIDDEN);
 
         Page<Order> ordersPage = this.ordersService.findOrderSummariesBelongingToUser(this.userService.getCurrentLoggedInUser(), page, pageSize);
-        return OrderListResponse.build(ordersPage, request.getRequestURI());
+        return ResponseEntity.ok().body(OrderListResponse.build(ordersPage, request.getRequestURI()));
     }
 
     @GetMapping("{id}")

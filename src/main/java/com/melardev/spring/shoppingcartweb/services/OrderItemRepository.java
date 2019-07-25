@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface OrderItemRepository extends CrudRepository<OrderItem, Long> {
 
-    @Query("select oi.order.id, count(*) from OrderItem oi where oi.order.id in :orderIds group by oi.order.id")
+    @Query("select oi.order.id, count(*), sum(oi.price * oi.quantity) from OrderItem oi where oi.order.id in :orderIds group by oi.order.id")
     List<Object[]> getOrderItemsCountForOrderIds(@Param("orderIds") List<Long> orderIds);
 }

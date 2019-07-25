@@ -24,16 +24,14 @@ public class OrderSummaryDto {
     private Integer zipCode;
 
     private double total;
-    private double totalAmount;
-
 
     private ZonedDateTime createdAt;
 
 
     public OrderSummaryDto(Long id, String trackingNumber, OrderStatus orderStatus, double totalAmount, Long orderItemsCount, AddressExcludeUserDto addressDto) {
         this.id = id;
-        this.totalAmount = totalAmount;
-        this.orderItemsCount=orderItemsCount;
+        this.total = totalAmount;
+        this.orderItemsCount = orderItemsCount;
         if (trackingNumber == null)
             this.orderStatus = OrderStatus.PROCESSED;
         else
@@ -65,12 +63,7 @@ public class OrderSummaryDto {
     public void setCreatedAt(ZonedDateTime createdAt) {
         this.createdAt = createdAt;
     }
-
-
-    public void setTotalAmount(double totalAmount) {
-        this.totalAmount = totalAmount;
-    }
-
+    
     public double getTotal() {
         return total;
     }
@@ -120,11 +113,6 @@ public class OrderSummaryDto {
     }
 
 
-    public double getTotalAmount() {
-        return totalAmount;
-    }
-
-
     public OrderStatus getOrderStatus() {
         return orderStatus;
     }
@@ -140,4 +128,5 @@ public class OrderSummaryDto {
     public Long getOrderItemsCount() {
         return orderItemsCount;
     }
+
 }

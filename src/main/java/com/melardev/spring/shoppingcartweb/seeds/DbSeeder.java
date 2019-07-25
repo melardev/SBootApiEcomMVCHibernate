@@ -216,7 +216,7 @@ public class DbSeeder implements CommandLineRunner {
                                     Product product = getRandomProductNotIn(products, ids, random);
                                     ids.add(product.getId());
                                     return new OrderItem(order, product, faker.random().nextInt(1, 7),
-                                            Math.min(10, faker.random().nextInt(-50, 50) + product.getPrice()));
+                                            Math.max(10, faker.random().nextInt(-50, 50) + product.getPrice()));
 
                                 }).collect(toList());
 

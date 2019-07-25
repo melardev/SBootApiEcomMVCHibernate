@@ -67,10 +67,12 @@ public class OrdersService implements IOrderService {
         orderItems.forEach(orderItem -> {
             Long orderId = (Long) orderItem[0];
             Long orderItemsCount = (Long) orderItem[1];
+            double totalPrice = (double) orderItem[2];
             Optional<Order> order = orders.stream().filter(p -> p.getId().equals(orderId)).findFirst();
-            if (order.isPresent())
+            if (order.isPresent()) {
                 order.get().setOrderItemsCount(orderItemsCount);
-            else
+                order.get().setTotal(totalPrice);
+            } else
                 throw new UnexpectedStateException();
 
         });

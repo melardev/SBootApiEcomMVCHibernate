@@ -1,12 +1,9 @@
 package com.melardev.spring.shoppingcartweb.controllers;
 
 import com.melardev.spring.shoppingcartweb.dtos.request.RegisterDto;
-import com.melardev.spring.shoppingcartweb.dtos.response.addresses.AddressListDto;
 import com.melardev.spring.shoppingcartweb.dtos.response.base.AppResponse;
 import com.melardev.spring.shoppingcartweb.dtos.response.base.ErrorResponse;
 import com.melardev.spring.shoppingcartweb.dtos.response.base.SuccessResponse;
-import com.melardev.spring.shoppingcartweb.errors.exceptions.PermissionDeniedException;
-import com.melardev.spring.shoppingcartweb.models.Address;
 import com.melardev.spring.shoppingcartweb.models.Role;
 import com.melardev.spring.shoppingcartweb.models.User;
 import com.melardev.spring.shoppingcartweb.services.RolesService;
@@ -19,7 +16,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 
 @CrossOrigin
 @RestController
@@ -60,15 +60,6 @@ public class UsersController {
 
         return new ResponseEntity<>(new SuccessResponse("User registered successfully"), HttpStatus.OK);
 
-    }
-
-    @GetMapping("my_addresses")
-    public AddressListDto myAddresses() {
-        User user = usersService.getCurrentLoggedInUser();
-        if (user == null)
-            throw new PermissionDeniedException("You are not logged In");
-        List<Address> addresses = user.getAddresses();
-        return AddressListDto.build(addresses);
     }
 
 }
