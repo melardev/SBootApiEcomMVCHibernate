@@ -95,16 +95,13 @@ public class DbSeeder implements CommandLineRunner {
 
 
         int maxUsersToSeed = this.settingsService.getMaxUsersToSeed();
-        int currentUsersCount = this.userService.getAllCount();
+        long currentUsersCount = this.userService.getAllCount();
         HashSet<Role> roles = new HashSet<>();
         roles.add(this.rolesService.getRoleOrThrow(this.settingsService.getAuthenticatedRoleName()));
 
-        List<User> users = IntStream.range(currentUsersCount, maxUsersToSeed)
-                .mapToObj(i -> {
-                    User user = new User(faker.name().firstName(), faker.name().lastName(), faker.internet().emailAddress(),
-                            faker.name().name(), "password", roles);
-                    return user;
-                }).collect(Collectors.toList());
+        List<User> users = IntStream.range((int) currentUsersCount, maxUsersToSeed)
+                .mapToObj(i -> new User(faker.name().firstName(), faker.name().lastName(), faker.internet().emailAddress(),
+                        faker.name().name(), "password", roles)).collect(Collectors.toList());
 
         this.userService.saveAll(users);
     }
@@ -152,10 +149,9 @@ public class DbSeeder implements CommandLineRunner {
                         product.setDescription(faker.lorem().paragraph(6));
                         product.setPrice(faker.random().nextDouble() * 100);
                         product.setStock(faker.random().nextInt(0, 1200));
-                        product.setTags(new HashSet<Tag>(Arrays
-                                .asList(
-                                        tags.get(faker.random().nextInt(1, tags.size() - 1))
-                                )));
+                        product.setTags(new HashSet<>(Collections.singletonList(
+                                tags.get(faker.random().nextInt(1, tags.size() - 1))
+                        )));
 
                         product.setCategories(new HashSet<Category>(Arrays
                                 .asList(

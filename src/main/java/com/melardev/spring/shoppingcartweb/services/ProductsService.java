@@ -28,7 +28,6 @@ public class ProductsService implements IProductsService {
     private ProductsRepository productsRepository;
 
 
-
     @Autowired
     StorageService storageService;
     @Autowired
@@ -197,19 +196,21 @@ public class ProductsService implements IProductsService {
 
         return product.orElse(null);
     }
+
     @Override
     public List<Product> findAll() {
         return this.productsRepository.findAll();
     }
+
     @Override
     public Product findById(String slug) {
         return productsRepository.findBySlug(slug).orElseThrow(ResourceNotFoundException::new);
     }
+
     @Override
     public List<Product> saveAll(Set<Product> products) {
         return this.productsRepository.saveAll(products);
     }
-
 
 
     @Override
@@ -255,7 +256,7 @@ public class ProductsService implements IProductsService {
     }
 
 
-    public Product createWithDettachedTagsAndCategories(Product product, List<File> files) throws IOException {
+    public Product createWithDetachedTagsAndCategories(Product product, List<File> files) {
         Set<Tag> tags = tagService.findOrCreateAll(product.getTags());
         Set<Category> categories = categoriesService.findOrCreateAll(product.getCategories());
 

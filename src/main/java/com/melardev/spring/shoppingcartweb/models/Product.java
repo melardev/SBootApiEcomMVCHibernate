@@ -3,11 +3,10 @@ package com.melardev.spring.shoppingcartweb.models;
 
 import com.melardev.spring.shoppingcartweb.enums.ContentType;
 import com.melardev.spring.shoppingcartweb.services.StringHelper;
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.Type;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.persistence.*;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -27,9 +26,11 @@ public class Product extends TimestampedEntity {
     @Type(type = "text")
     protected String description;
 
+    @Column(unique = true)
     public String slug;
 
     protected double price;
+
     private static final SimpleDateFormat SLUG_DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd");
     // One product has many comments, OneToMany has to have the mappedBy, or problems otherwiese
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.REMOVE)

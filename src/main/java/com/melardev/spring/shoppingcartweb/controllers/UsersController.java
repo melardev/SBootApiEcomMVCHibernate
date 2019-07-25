@@ -35,7 +35,6 @@ public class UsersController {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-
     @PostMapping
     public ResponseEntity<AppResponse> registerUser(@Valid @RequestBody RegisterDto createUserDto, BindingResult result) {
         if (usersService.existsByUsername(createUserDto.getUsername())) {

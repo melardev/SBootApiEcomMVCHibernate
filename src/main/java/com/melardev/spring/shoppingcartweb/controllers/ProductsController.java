@@ -89,9 +89,9 @@ public class ProductsController {
 
     @GetMapping("by_category/{category_name}")
     public ProductListResponse getByCategory(@PathVariable(name = "category_name", required = false) String categoryName,
-                                                HttpServletRequest request,
-                                                @RequestParam(value = "page", defaultValue = "1") int page,
-                                                @RequestParam(value = "page_size", defaultValue = "5") int pageSize) {
+                                             HttpServletRequest request,
+                                             @RequestParam(value = "page", defaultValue = "1") int page,
+                                             @RequestParam(value = "page_size", defaultValue = "5") int pageSize) {
 
         Page<Product> productsPage = productsService.getByCategory(categoryName, page, pageSize);
         return ProductListResponse.build(productsPage, request.getRequestURI());
@@ -131,7 +131,6 @@ public class ProductsController {
     }
 
 
-
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<AppResponse> create(HttpServletRequest request,
@@ -154,9 +153,11 @@ public class ProductsController {
         }
         */
 
+        /*
         User user = usersService.getCurrentLoggedInUser();
         if (!this.authorizationCheckOnProducts(CrudOperation.CREATE, user))
             throw new PermissionDeniedException("You are not allowed to create products");
+        */
 /*
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(new ErrorResponse(bindingResult.getModel()), HttpStatus.BAD_REQUEST);
@@ -175,20 +176,20 @@ public class ProductsController {
                 product.setStock(Integer.parseInt(value[0]));
 
             // TODO: improve this, I tried to use regex but it does not work, someone knows why?
-            if (key.indexOf("tags[") != -1) {
+            if (key.startsWith("tags[")) {
                 key = key.replace("tags[", "").replace("]", "");
                 product.getTags().add(new Tag(key, value[0]));
             }
 
-            if (key.indexOf("categories[") != -1) {
+            if (key.contains("categories[")) {
                 key = key.replace("categories[", "").replace("]", "");
                 product.getCategories().add(new Category(key, value[0]));
             }
         });
 
-        List<File> files = storageService.upload(uploadingFiles, "/iamges/products");
+        List<File> files = storageService.upload(uploadingFiles, "/images/products");
 
-        productsService.createWithDettachedTagsAndCategories(product, files);
+        productsService.createWithDetachedTagsAndCategories(product, files);
         return new ResponseEntity<>(SingleProductResponse.build(product), HttpStatus.CREATED);
 
         //}

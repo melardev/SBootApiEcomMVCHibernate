@@ -1,8 +1,8 @@
 package com.melardev.spring.shoppingcartweb.dtos.response.admin;
 
+import com.melardev.spring.shoppingcartweb.dtos.response.base.SuccessResponse;
 import com.melardev.spring.shoppingcartweb.dtos.response.categories.SingleCategoryDto;
 import com.melardev.spring.shoppingcartweb.dtos.response.tags.SingleTagDto;
-import com.melardev.spring.shoppingcartweb.dtos.response.base.SuccessResponse;
 
 import java.util.Collection;
 

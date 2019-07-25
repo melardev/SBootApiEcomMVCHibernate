@@ -45,6 +45,7 @@ public class UsersService implements UserDetailsService {
      */
     @Autowired
     private PasswordEncoder passwordEncoder;
+
     private final UsersRepository userRepository;
 
     private final RolesService rolesService;
@@ -299,6 +300,9 @@ public class UsersService implements UserDetailsService {
     }
 
     public List<User> saveAll(Iterable<User> users) {
+        users.forEach(u -> {
+            u.setPassword(passwordEncoder.encode(u.getPassword()));
+        });
         return this.userRepository.saveAll(users);
     }
 
@@ -357,8 +361,8 @@ public class UsersService implements UserDetailsService {
         return !isAnonymous();
     }
 
-    public int getAllCount() {
-        return (int) userRepository.count();
+    public long getAllCount() {
+        return userRepository.count();
     }
 
     public Page<User> getLatest(int page, int count) {

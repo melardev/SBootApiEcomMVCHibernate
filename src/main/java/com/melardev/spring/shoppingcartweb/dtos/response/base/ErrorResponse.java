@@ -19,12 +19,14 @@ public class ErrorResponse extends AppResponse {
             setFullMessages(new ArrayList<>());
 
         errors.forEach((key, value) -> {
-            if (value.getClass() == BeanPropertyBindingResult.class)
-                getFullMessages().addAll(((BeanPropertyBindingResult) value).getAllErrors().stream().map(e -> e.getDefaultMessage()).collect(toList()));
-            else {
-                if (key.equalsIgnoreCase("stack_trace")) // stack trace is added in errors, not in full_messages
-                    return;
-                getFullMessages().add(value.toString());
+            if (value != null) {
+                if (value.getClass() == BeanPropertyBindingResult.class)
+                    getFullMessages().addAll(((BeanPropertyBindingResult) value).getAllErrors().stream().map(e -> e.getDefaultMessage()).collect(toList()));
+                else {
+                    if (key.equalsIgnoreCase("stack_trace")) // stack trace is added in errors, not in full_messages
+                        return;
+                    getFullMessages().add(value.toString());
+                }
             }
         });
     }

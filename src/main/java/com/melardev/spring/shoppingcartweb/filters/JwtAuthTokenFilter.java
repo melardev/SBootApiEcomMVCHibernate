@@ -1,12 +1,15 @@
 package com.melardev.spring.shoppingcartweb.filters;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.melardev.spring.shoppingcartweb.config.JwtProvider;
-import com.melardev.spring.shoppingcartweb.errors.exceptions.PermissionDeniedException;
+import com.melardev.spring.shoppingcartweb.dtos.response.base.ErrorResponse;
 import com.melardev.spring.shoppingcartweb.services.auth.UsersService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +22,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class JwtAuthTokenFilter extends OncePerRequestFilter {
 
@@ -32,6 +37,9 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
     @Autowired
     @Qualifier("resourceHandlerMapping")
     HandlerMapping mapping;
+
+    @Autowired
+    ObjectMapper objectMapper;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -52,7 +60,11 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception e) {
-            throw new PermissionDeniedException("Your token is invalid");
+            response.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+            Map<String, Object> errors = new HashMap<>();
+            errors.put("auth", "Invalid Token: " + e.getMessage());
+            response.getWriter().write(objectMapper.writeValueAsString(new ErrorResponse(errors)));
+            return;
         }
 
         filterChain.doFilter(request, response);

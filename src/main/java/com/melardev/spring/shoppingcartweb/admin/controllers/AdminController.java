@@ -5,11 +5,13 @@ import com.melardev.spring.shoppingcartweb.models.Comment;
 import com.melardev.spring.shoppingcartweb.models.Order;
 import com.melardev.spring.shoppingcartweb.models.Product;
 import com.melardev.spring.shoppingcartweb.models.User;
-import com.melardev.spring.shoppingcartweb.services.*;
+import com.melardev.spring.shoppingcartweb.services.CommentsService;
+import com.melardev.spring.shoppingcartweb.services.OrdersService;
+import com.melardev.spring.shoppingcartweb.services.ProductsService;
+import com.melardev.spring.shoppingcartweb.services.SettingsService;
 import com.melardev.spring.shoppingcartweb.services.auth.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("admin")
-@PreAuthorize("hasRole('ROLE_ADMIN')")
+// @PreAuthorize("hasRole('ROLE_ADMIN')")
 public class AdminController {
 
     private final OrdersService ordersService;

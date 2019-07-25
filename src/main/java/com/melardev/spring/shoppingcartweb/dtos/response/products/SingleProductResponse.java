@@ -17,7 +17,7 @@ public class SingleProductResponse extends SuccessResponse {
 
 
     private final List<CommentPartialDto> comments;
-    private final List<String> images;
+    private final List<String> imageUrls;
     public long id;
     public String name;
     public String slug;
@@ -43,7 +43,7 @@ public class SingleProductResponse extends SuccessResponse {
         this.comments = commentPartialDtos;
         this.tags = tagDtos;
         this.categories = categoryDtos;
-        this.images = imageList;
+        this.imageUrls = imageList;
     }
 
     public static SingleProductResponse build(Product product) {
@@ -182,7 +182,7 @@ public class SingleProductResponse extends SuccessResponse {
         }
     }
 
-    public List<String> getImages() {
-        return images;
+    public List<String> getImageUrls() {
+        return imageUrls;
     }
 }

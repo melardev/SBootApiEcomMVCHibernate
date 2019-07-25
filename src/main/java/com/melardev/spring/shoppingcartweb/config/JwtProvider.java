@@ -1,5 +1,6 @@
 package com.melardev.spring.shoppingcartweb.config;
 
+import com.melardev.spring.shoppingcartweb.models.Role;
 import com.melardev.spring.shoppingcartweb.models.User;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
@@ -30,7 +31,7 @@ public class JwtProvider {
 
         Claims claims = Jwts.claims().setSubject(userPrincipal.getUsername());
         claims.put("user_id", userPrincipal.getId());
-        claims.put("roles", userPrincipal.getRoles().stream().map(r -> r.getName()).collect(Collectors.toList()));
+        claims.put("roles", userPrincipal.getRoles().stream().map(Role::getName).collect(Collectors.toList()));
 
         return Jwts.builder()
                 .setClaims(claims)

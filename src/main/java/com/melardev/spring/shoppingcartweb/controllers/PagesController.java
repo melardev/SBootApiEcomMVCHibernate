@@ -28,7 +28,7 @@ public class PagesController {
         this.tagService = tagService;
     }
 
-    @GetMapping
+    @GetMapping(path = {"", "/home"})
     public HomeDtoResponse home() {
         List<Category> categories = categoriesService.getAllSummary();
         List<Tag> tags = tagService.getAllTags();

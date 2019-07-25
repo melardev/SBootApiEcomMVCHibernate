@@ -20,7 +20,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
 
 @PreAuthorize("hasRole('ROLE_ADMIN')")
 @RestController(value = "adminUsersController")
